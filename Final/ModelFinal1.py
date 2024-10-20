@@ -100,8 +100,8 @@ def plot_3d_energy_gdp(data, country_name):
     plt.show()
 
 # Example usage with country1 and country2 data
-plot_3d_energy_gdp(country1, 'Country 1')
-plot_3d_energy_gdp(country2, 'Country 2')
+plot_3d_energy_gdp(country1, Country_1)
+plot_3d_energy_gdp(country2, Country_2)
 
 def plot_3d_energy_gdp_comparison(data1, data2, country_name1, country_name2):
     # Define energy components to plot
@@ -136,7 +136,7 @@ def plot_3d_energy_gdp_comparison(data1, data2, country_name1, country_name2):
     plt.show()
 
 # Example usage with country1 and country2 data
-plot_3d_energy_gdp_comparison(country1, country2, 'Country 1', 'Country 2')
+plot_3d_energy_gdp_comparison(country1, country2, Country_1, Country_2)
 
 # Group 1: Production components per Capita
 create_subplot_group(['Coal Production', 'Oil Production', 'Gas Production', 'Renewables Production', 'Nuclear Production'], 
