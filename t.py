@@ -1,25 +1,18 @@
-# Import necessary libraries
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 
-# Load energy data for two countries
 country1_data = pd.read_csv('country1_energy.csv')
 country2_data = pd.read_csv('country2_energy.csv')
 
-# Fill missing values (optional, adjust based on your data)
 country1_data.fillna(0, inplace=True)
 country2_data.fillna(0, inplace=True)
 
-# Check column names to troubleshoot KeyError
 print("Country 1 Columns:", country1_data.columns)
 print("Country 2 Columns:", country2_data.columns)
 
-# ===========================
-# 1. Energy Production Comparison (Fossil Fuels, Renewables)
-# ===========================
-
+#Energy Production Comparison (Fossil Fuels, Renewables)
 labels = ['Coal', 'Oil', 'Gas', 'Renewables']
 
 country1_prod = [
@@ -47,10 +40,7 @@ plt.title('Energy Production Comparison by Source')
 plt.legend()
 plt.show()
 
-# ===========================
-# 2. Energy Consumption by Sector
-# ===========================
-
+# Energy Consumption by Sector
 labels = ['Industry', 'Transport', 'Households', 'Other']
 
 country1_consumption = [
@@ -77,9 +67,7 @@ plt.title('Energy Consumption by Sector')
 plt.legend()
 plt.show()
 
-# ===========================
-# 3. Energy Imports/Exports Comparison
-# ===========================
+# Energy Imports/Exports Comparison
 
 labels = ['Imports', 'Exports']
 
@@ -93,8 +81,7 @@ country2_trade = [
     country2_data['Energy Exports'].sum()
 ]
 
-# Define x for imports/exports
-x_trade = range(len(labels))  # Set x for trade, which has 2 labels
+x_trade = range(len(labels))
 
 # Plot energy imports/exports comparison
 plt.figure(figsize=(10, 6))
@@ -106,9 +93,7 @@ plt.title('Energy Imports/Exports Comparison')
 plt.legend()
 plt.show()
 
-# ===========================
 # 4. Energy Efficiency (Energy Use per GDP Unit)
-# ===========================
 
 country1_efficiency = country1_data['Total Energy Use'].sum() / country1_data['GDP'].sum()
 country2_efficiency = country2_data['Total Energy Use'].sum() / country2_data['GDP'].sum()
@@ -120,9 +105,7 @@ plt.ylabel('Energy Use per GDP Unit (TWh/USD)')
 plt.title('Energy Efficiency Comparison')
 plt.show()
 
-# ===========================
 # 5. AI: Forecasting Future Energy Consumption (Linear Regression)
-# ===========================
 
 # Forecasting energy consumption using Linear Regression
 
