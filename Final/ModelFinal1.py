@@ -12,9 +12,9 @@ Country_1 = 'Russia'
 country2 = pd.read_csv('country2.csv')
 Country_2 = 'Canada'
 
-# Natural gas, nuclear, 
-# agricultural, fishing => others commercial
+# Natural gas, nuclear, agricultural, fishing => others commercial
 for component in ['Coal Production', 'Oil Production', 'Gas Production', 'Renewables Production', 'Nuclear Production',
+                  'Other Production',  # Added here
                   'Industry', 'Transport', 'Households', 'Other', 'Agriculture', 'Commercial', 'Energy Imports', 
                   'Energy Exports', 'Total Energy Use', 'GDP']:
     country1[f'{component} per Capita'] = country1[component] / country1['Population']
@@ -135,11 +135,32 @@ def plot_3d_energy_gdp_comparison(data1, data2, country_name1, country_name2):
     plt.tight_layout()
     plt.show()
 
+for country in [country1, country2]:
+    country['Gas Pipeline to Area Ratio'] = country['Gas Pipeline Length'] / country['Area']
+
+def create_subplot_gas_pipeline_ratio(data1, data2, country_name1, country_name2):
+    # Create a new figure for the comparison of gas pipeline to area ratio
+    plt.figure(figsize=(12, 6))
+    
+    # Plotting the gas pipeline to area ratio for both countries
+    plt.plot(data1['Year'], data1['Gas Pipeline to Area Ratio'], label=f'{country_name1} Gas Pipeline to Area Ratio', marker='o')
+    plt.plot(data2['Year'], data2['Gas Pipeline to Area Ratio'], label=f'{country_name2} Gas Pipeline to Area Ratio', marker='s')
+    
+    # Chart formatting
+    plt.title('Gas Pipeline Length to Area Ratio Comparison')
+    plt.xlabel('Year')
+    plt.ylabel('Gas Pipeline to Area Ratio (km/sq km)')
+    plt.legend()
+    plt.grid(True)
+    plt.tight_layout()
+    plt.show()
+
 # Example usage with country1 and country2 data
 plot_3d_energy_gdp_comparison(country1, country2, Country_1, Country_2)
 
-# Group 1: Production components per Capita
-create_subplot_group(['Coal Production', 'Oil Production', 'Gas Production', 'Renewables Production', 'Nuclear Production'], 
+# Group 1: Production components per Capita (with Other Production added)
+create_subplot_group(['Coal Production', 'Oil Production', 'Gas Production', 'Renewables Production', 'Nuclear Production', 
+                      'Other Production'],  # Added here
                      'Energy Production per Capita Comparison 1')
 
 # Group 2: Usage components per Capita
@@ -149,3 +170,6 @@ create_subplot_group(['Industry', 'Transport', 'Households', 'Other', 'Agricultu
 # Group 3: Imports, Exports, Total Energy Use, and GDP per Capita
 create_subplot_group(['Energy Imports', 'Energy Exports', 'Total Energy Use', 'GDP'], 
                      'Energy Imports, Exports, and Economic Indicators per Capita Comparison')
+
+# Example usage with country1 and country2 data
+create_subplot_gas_pipeline_ratio(country1, country2, Country_1, Country_2)
