@@ -17,8 +17,8 @@ for component in ['Coal Production', 'Oil Production', 'Gas Production', 'Renewa
                   'Other Production',  # Added here
                   'Industry', 'Transport', 'Households', 'Other', 'Agriculture', 'Commercial', 'Energy Imports', 
                   'Energy Exports', 'Total Energy Use', 'GDP']:
-    country1[f'{component}'] = country1[component]
-    country2[f'{component}'] = country2[component]
+    country1[f'{component} per Capita'] = country1[component] / country1['Population']
+    country2[f'{component} per Capita'] = country2[component] / country2['Population']
 
 def forecast_energy(data, feature, years_to_predict=5):
     X = data['Year'].values.reshape(-1, 1)
@@ -48,19 +48,19 @@ def create_subplot_group(components, title):
         col = idx % cols
 
         # Historical data
-        axes[row, col].plot(country1['Year'], country1[f'{component}'], label=f'{Country_1} Historical', marker='o')
-        axes[row, col].plot(country2['Year'], country2[f'{component}'], label=f'{Country_2} Historical', marker='s')
+        axes[row, col].plot(country1['Year'], country1[f'{component} per Capita'], label=f'{Country_1} Historical', marker='o')
+        axes[row, col].plot(country2['Year'], country2[f'{component} per Capita'], label=f'{Country_2} Historical', marker='s')
 
         # Forecast data
-        future_years, future_values_country1 = forecast_energy(country1, f'{component}')
-        _, future_values_country2 = forecast_energy(country2, f'{component}')
+        future_years, future_values_country1 = forecast_energy(country1, f'{component} per Capita')
+        _, future_values_country2 = forecast_energy(country2, f'{component} per Capita')
         axes[row, col].plot(future_years, future_values_country1, label=f'{Country_1} Forecast', linestyle='--')
         axes[row, col].plot(future_years, future_values_country2, label=f'{Country_2} Forecast', linestyle='--')
 
         # Chart formatting
-        axes[row, col].set_title(f'{component}')
+        axes[row, col].set_title(f'{component} per Capita')
         axes[row, col].set_xlabel('Year')
-        axes[row, col].set_ylabel(f'{component}')
+        axes[row, col].set_ylabel(f'{component} per Capita')
         axes[row, col].legend()
         axes[row, col].grid(True)
 
@@ -75,7 +75,7 @@ def create_subplot_group(components, title):
 
 def plot_3d_energy_gdp(data, country_name):
     # Define energy components to plot
-    energy_components = ['Industry', 'Transport', 'Households', 'Other', 'Agriculture', 'Commercial']
+    energy_components = ['Industry per Capita', 'Transport per Capita', 'Households per Capita', 'Other per Capita', 'Agriculture per Capita', 'Commercial per Capita']
     colors = ['red', 'blue', 'green', 'purple', 'orange', 'cyan']
     markers = ['o', 's', '^', 'x', 'D', 'P']
 
@@ -84,13 +84,13 @@ def plot_3d_energy_gdp(data, country_name):
     ax = fig.add_subplot(111, projection='3d')
 
     for component, color, marker in zip(energy_components, colors, markers):
-        ax.scatter(data['Year'], data['GDP'], data[component],
+        ax.scatter(data['Year'], data['GDP per Capita'], data[component],
                    label=f'{component}', color=color, marker=marker, s=50)
 
     # Labeling the axes
     ax.set_xlabel('Year')
-    ax.set_ylabel('GDP')
-    ax.set_zlabel('Energy Consumption')
+    ax.set_ylabel('GDP per Capita')
+    ax.set_zlabel('Energy Consumption per Capita')
     ax.set_title(f'3D Plot of GDP, Year, and Energy Consumption for {country_name}')
 
     # Show the legend
@@ -105,7 +105,7 @@ plot_3d_energy_gdp(country2, Country_2)
 
 def plot_3d_energy_gdp_comparison(data1, data2, country_name1, country_name2):
     # Define energy components to plot
-    energy_components = ['Industry', 'Transport', 'Households', 'Other', 'Agriculture', 'Commercial']
+    energy_components = ['Industry per Capita', 'Transport per Capita', 'Households per Capita', 'Other per Capita', 'Agriculture per Capita', 'Commercial per Capita']
     colors = ['red', 'blue', 'green', 'purple', 'orange', 'cyan']
     markers = ['o', 's', '^', 'x', 'D', 'P']
 
@@ -115,18 +115,18 @@ def plot_3d_energy_gdp_comparison(data1, data2, country_name1, country_name2):
 
     # Plot data for the first country
     for component, color, marker in zip(energy_components, colors, markers):
-        ax.plot(data1['Year'], data1['GDP'], data1[component],
+        ax.plot(data1['Year'], data1['GDP per Capita'], data1[component],
                 label=f'{country_name1} - {component}', color=color, marker=marker, linestyle='-', linewidth=1)
 
     # Plot data for the second country
     for component, color, marker in zip(energy_components, colors, markers):
-        ax.plot(data2['Year'], data2['GDP'], data2[component],
+        ax.plot(data2['Year'], data2['GDP per Capita'], data2[component],
                 label=f'{country_name2} - {component}', color=color, marker=marker, linestyle='--', linewidth=1)
 
     # Labeling the axes
     ax.set_xlabel('Year')
-    ax.set_ylabel('GDP')
-    ax.set_zlabel('Energy Consumption')
+    ax.set_ylabel('GDP per Capita')
+    ax.set_zlabel('Energy Consumption per Capita')
     ax.set_title(f'3D Comparison of GDP, Year, and Energy Consumption for {country_name1} and {country_name2}')
 
     # Show the legend
@@ -157,18 +157,18 @@ def plot_3d_energy_gdp_comparison(data1, data2, country_name1, country_name2):
 
 plot_3d_energy_gdp_comparison(country1, country2, Country_1, Country_2)
 
-# Group 1: Production components (with Other Production added)
+# Group 1: Production components per Capita (with Other Production added)
 create_subplot_group(['Coal Production', 'Oil Production', 'Gas Production', 'Renewables Production', 'Nuclear Production', 
                       'Other Production'],  # Added here
-                     'Energy Production Comparison 1')
+                     'Energy Production per Capita Comparison 1')
 
-# Group 2: Usage components
+# Group 2: Usage components per Capita
 create_subplot_group(['Industry', 'Transport', 'Households', 'Other', 'Agriculture', 'Commercial'], 
-                     'Energy Consumption Comparison 2')
+                     'Energy Consumption per Capita Comparison 2')
 
-# Group 3: Imports, Exports, Total Energy Use, and GDP
+# Group 3: Imports, Exports, Total Energy Use, and GDP per Capita
 create_subplot_group(['Energy Imports', 'Energy Exports', 'Total Energy Use', 'GDP'], 
-                     'Energy Imports, Exports, and Economic Indicators Comparison')
+                     'Energy Imports, Exports, and Economic Indicators per Capita Comparison')
 
 # Example usage with country1 and country2 data
 # create_subplot_gas_pipeline_ratio(country1, country2, Country_1, Country_2)
