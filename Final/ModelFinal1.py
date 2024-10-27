@@ -1,18 +1,15 @@
-# Import necessary libraries
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.linear_model import LinearRegression
 import numpy as np
-import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
-country1 = pd.read_csv('country1.csv')
+country1 = pd.read_csv('russia.csv')
 Country_1 = 'Russia'
-country2 = pd.read_csv('country2.csv')
+country2 = pd.read_csv('canada.csv')
 Country_2 = 'Canada'
 
-# Natural gas, nuclear, agricultural, fishing => others commercial
 for component in ['Coal Production', 'Oil Production', 'Gas Production', 'Renewables Production', 'Nuclear Production',
                   'Other Production',  # Added here
                   'Industry', 'Transport', 'Households', 'Other', 'Agriculture', 'Commercial', 'Energy Imports', 
